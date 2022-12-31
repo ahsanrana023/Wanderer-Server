@@ -39,17 +39,28 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/addproduct", async (req, res) => {
-  const { name, price, dicription } = req.body;
   try {
-    const newproduct = new Product({
-      name,
-      price,
-      dicription,
-    });
+    const newProduct = req.body;
+    console.log(req.body);
+    const product = new Product();
+    product.name = newProduct.name;
+    product.price = newProduct.price;
+    product.dicription = newProduct.dicription;
+    if (newProduct.imageurl1 && newProduct.imageurl1.length > 0) {
+      product.imageurls.push(newProduct.imageurl1);
+    }
+    if (newProduct.imageurl2 && newProduct.imageurl2.length > 0) {
+      product.imageurls.push(newProduct.imageurl2);
+    }
+    if (newProduct.imageurl3 && newProduct.imageurl3.length > 0) {
+      product.imageurls.push(newProduct.imageurl3);
+    }
 
-    const product = await newproduct.save();
-  } catch (err) {
-    return res.status(400).json({ message: "Something went wrong" + error });
+    const result = await product.save();
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: error });
   }
 });
 
