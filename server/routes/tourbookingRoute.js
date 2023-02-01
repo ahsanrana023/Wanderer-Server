@@ -29,9 +29,7 @@ router.post("/cancelbooking", async (req, res) => {
     await booking.save();
     const tour = await Tour.findOne({ _id: tourid });
     const tourbookings = tour.currentbookings;
-    const temp = tourbookings.filter(
-      (x) => x.bookingid.toString() !== bookingid
-    );
+    const temp = bookings.filter((x) => x.bookingid.toString() !== bookingid);
     tour.currentbookings = temp;
     await tour.save();
 
